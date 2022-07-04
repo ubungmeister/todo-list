@@ -4,7 +4,7 @@ import {Todolist} from "./Todolist";
 import {v1} from "uuid";
 
 export type filterValuetype = 'All' | 'Active' | 'Completed'
-
+// 2 ///2
 function App() {
     let [tasks1, setTask1] = useState( [
         {id: v1(), title: 'HTML&CSS', isDone: true},
