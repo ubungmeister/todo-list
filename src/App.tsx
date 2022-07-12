@@ -12,6 +12,13 @@ function App() {
         {id: v1(), title: 'ReactJS', isDone: false},
         {id: v1(), title: 'Python', isDone: false}
     ])
+    // let[checkBox, setCheckBox] = useState(false)
+
+    const checkBoxChanger =(taskId:string, value:boolean)=>{
+        setTask1(tasks1.map(el=>el.id === taskId ? {...el, isDone:value}: el))
+    }
+
+
    // smazeme tasku na kterou jsme klikli
     const removeTask = (taskID: string) => {
         let filteredTask = tasks1.filter((el) => el.id !== taskID)
@@ -46,11 +53,14 @@ function App() {
     return (
         <div className="App">
             <Todolist
+                checkBoxChanger={checkBoxChanger}
                 title = {"Hello"}
                 tasks ={filteredTask}
                 revomeTask={removeTask}
                 changeFilter ={changeFilter}
                 addTask={addTask}
+                filterValue={filterValue}
+
 
             />
         </div>
