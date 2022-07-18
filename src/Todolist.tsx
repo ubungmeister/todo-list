@@ -69,7 +69,7 @@ export const Todolist = (props: TodolistPropsType) => {
                         return (
                             <li key={el.id} className={el.isDone !== true ? s.isDone: ''}>
                                 <CheckBox  checked={el.isDone} callback={(eventValue)=>checkBoxHandler(el.id, eventValue)}/>
-                                {/*<input  type="checkbox" checked={el.isDone}*/}
+                                {/*<input  type="checkbox" checked={el.i sDone}*/}
                                 {/*       onChange={(event)=> {checkBoxHandler(el.id, event.currentTarget.checked)*/}
                                 {/*       }}/>*/}
                                 <button onClick={()=>removeTaskHandler(el.id)}>x</button>
