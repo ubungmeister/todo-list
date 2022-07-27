@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./Todolist";
 import {v1} from "uuid";
+import {AddItemForm} from "./components/AddItemForm";
 
 export type FilterValuetype = 'All' | 'Active' | 'Completed'
 type TodoListType = {
@@ -34,13 +35,6 @@ function App() {
     })
 
 
-    // let [tasks1, setTask1] = useState( [
-    //     {id: v1(), title: 'HTML&CSS', isDone: true},
-    //     {id: v1(), title: 'JS', isDone: true},
-    //     {id: v1(), title: 'ReactJS', isDone: false},
-    //     {id: v1(), title: 'Python', isDone: false}
-    // ])
-    // let[checkBox, setCheckBox] = useState(false)
 
     const checkBoxChanger =(todoListID:string, taskId:string, value:boolean)=>{
         // setTask1(tasks1.map(el=>el.id === taskId ? {...el, isDone:value}: el))
@@ -53,8 +47,6 @@ function App() {
     }
     // pridame tasku
     const addTask =(todoListID:string,  title:string)=>{
-
-
         let newTask = {
             id: v1(),
             title:title,
@@ -69,12 +61,29 @@ function App() {
     const changeFilter =(todoListID:string ,value:FilterValuetype)=> {
             setTodoList(todoList.map((e)=>e.id===todoListID? {...e, filter:value}: e))
     }
-
-
+    //pridame dalsi TodoList + novou taksku, bez ktere bby neslo Todolist zmapovat
+    const addTodoList = (title:string) => {
+        const newID = v1()
+      const newTodoList:TodoListType = {
+                id:newID,
+              title: title,
+              filter:'All'}
+        setTodoList([newTodoList ,...todoList])
+        setTask1({...tasks1, [newID]:[{id:v1(), title:'HTML', isDone:true}]})
+    }
+    // editace nazvu Todolist
+    const editTodoList =(todoListID:string, newTitle:string)=>{
+            setTodoList(todoList.map(el=>el.id ===todoListID? {...el,title:newTitle}:el))
+    }
+    //editace obsahu jednotlive tasky
+    const editTask = (todoListID:string,taskID:string, tasktitle:string)=>{
+        setTask1({...tasks1, [todoListID]:tasks1[todoListID].map(el=>el.id===taskID?{...el,title:tasktitle}:el)})
+    }
 
     return (
         <div className="App">
 
+            <AddItemForm callBack={addTodoList}/>
 
             {todoList.map((el)=>{
                 let filteredTask = tasks1[el.id]
@@ -96,6 +105,8 @@ function App() {
                         changeFilter ={changeFilter}
                         addTask={addTask}
                         filterValue={el.filter}
+                        editTodoList={editTodoList}
+                        editTask={editTask}
                     />
                 )
             })}
