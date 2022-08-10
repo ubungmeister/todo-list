@@ -1,5 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from "../TodoList.module.css";
+import {Button, TextField} from "@mui/material";
+
+
+
+
+
+
 
 
 type AddItemFormType ={
@@ -21,20 +28,28 @@ export const AddItemForm = (props:AddItemFormType) => {
     // predavame pres Button novou tasku newTaskTitle
     const onButtonInputHandler = () => {
         if(newTaskTitle.trim()!==''){
-            props.callBack(newTaskTitle.trim())
-            setNewTaskTitle('')
+            props.callBack(newTaskTitle)
+            setNewTaskTitle('')}
+        else{
             setError('Title is required')
         }
     }
+    console.log()
     return (
         <div>
-            <input className={error ? s.error: ''}
-                   value={newTaskTitle}
-                   onChange={onChangeInputHandler}
-                   onKeyDown={onKeyPressHandler}
-            />
-            <button onClick={onButtonInputHandler}>+</button>
-            {error && <div className={s.errorMessage}>{error}</div>}
+            <TextField id="outlined-basic"
+                       error={!!error}
+                       label={error}
+                       variant="outlined"
+                       size="small"
+                       className={error ? s.error: ''}
+                       value={newTaskTitle}
+                       onChange={onChangeInputHandler}
+                       onKeyPress={onKeyPressHandler}/>
+
+            {/*<button onClick={onButtonInputHandler}>+</button>*/}
+            <Button onClick={onButtonInputHandler} variant="contained"
+                    style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}}>+</Button>
         </div>
     );
 };
