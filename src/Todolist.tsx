@@ -1,12 +1,12 @@
-import React, {ChangeEvent, useState, KeyboardEvent} from "react";
+import React from "react";
 import {FilterValuetype} from "./App";
 import s from "./TodoList.module.css";
 import {CheckBox} from "./components/CheckBox";
 import {AddItemForm} from "./components/AddItemForm";
 import {EditableSpan} from "./components/EditableSpan";
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Button, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
-import ButtonAppBar from "./components/ButtonAppBar";
+
 
 type TodolistPropsType = {
     todoListID: string
@@ -22,7 +22,7 @@ type TodolistPropsType = {
     removeTodoList:(todoListID:string)=>void
 
 }
-type TasksPropsType = {
+export type TasksPropsType = {
     id: string,
     title: string,
     isDone: boolean

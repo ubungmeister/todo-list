@@ -1,17 +1,21 @@
 import React, {useState} from 'react';
 import './App.css';
-import {Todolist} from "./Todolist";
+import {TasksPropsType, Todolist} from "./Todolist";
 import {v1} from "uuid";
 import {AddItemForm} from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
 import {Container, Grid, Paper} from "@mui/material";
 
 export type FilterValuetype = 'All' | 'Active' | 'Completed'
-type TodoListType = {
+export type TodoListType = {
     id: string
     title: string
     filter: FilterValuetype
 }
+export type TasksStateType = {
+    [key: string]: Array<TasksPropsType>
+}
+
 
 function App() {
     let todoListID1 = v1()
@@ -21,7 +25,7 @@ function App() {
         {id: todoListID1, title: 'What to learn', filter: 'All'},
         {id: todoListID2, title: 'What to learn', filter: 'All'},
     ])
-    let [tasks1, setTask1] = useState({
+    let [tasks1, setTask1] = useState<TasksStateType>({
         [todoListID1]: [
             {id: v1(), title: 'HTML', isDone: true},
             {id: v1(), title: 'JS', isDone: true},
@@ -62,8 +66,6 @@ function App() {
         // setTask1({...tasks1})
         setTask1({...tasks1, [todoListID]: [newTask, ...tasks1[todoListID]]})
     }
-    //filtrujeme tasku
-    let [filterValue, setFilterValue] = useState()
 
 
     const changeFilter = (todoListID: string, value: FilterValuetype) => {
