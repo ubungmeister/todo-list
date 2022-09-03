@@ -1,7 +1,9 @@
 import {FilterValuetype, TodoListType} from "../AppWithReducer";
 import {v1} from "uuid";
 
-export const todolistsReducer =(state:Array<TodoListType>,action:ActionTypes):Array<TodoListType>=>{
+const initinalState:Array<TodoListType> = []
+
+export const todolistsReducer =(state=initinalState,action:ActionTypes):Array<TodoListType>=>{
     switch(action.type){
         case 'REMOVE-TODOLIST':{
           return state.filter(el=>el.id !== action.payload.todoListID)
@@ -14,12 +16,6 @@ export const todolistsReducer =(state:Array<TodoListType>,action:ActionTypes):Ar
         }
         case "CHANGE-TODOLIST-FILTER":{
             return state.map(el=>el.id === action.payload.todoListID? {...el, filter:action.payload.filter}: el)
-        //     const todolist = state.find(tl => tl.id === action.payload.todoListID);
-        //     if (todolist) {
-        //         // если нашёлся - изменим ему заголовок
-        //         todolist.filter = action.payload.newFilter;
-        //     }
-        //     return [...state];
         }
         default:
             return state
