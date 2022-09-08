@@ -2,13 +2,6 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import s from "../TodoList.module.css";
 import {Button, TextField} from "@mui/material";
 
-
-
-
-
-
-
-
 type AddItemFormType ={
     callBack:(title: string)=>void
 }

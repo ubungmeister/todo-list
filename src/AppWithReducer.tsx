@@ -53,75 +53,43 @@ function AppWithReducer() {
 
 
     const checkBoxChanger = (todoListID:string,taskID:string, value:boolean) => {
-        // setTask1(tasks1.map(el=>el.id === taskId ? {...el, isDone:value}: el))
-        // setTask1({
-        //     ...tasks1,
-        //     [todoListID]: tasks1[todoListID].map(el => el.id === taskId ? {...el, isDone: value} : el)
-        // })
         dispatchTasks(changeTaskStatusAC(todoListID,taskID,value))
     }
 
     // smazeme tasku na kterou jsme klikli... Globali ID->Lokalni ID->Ostatni
     const removeTask = (todoListID: string, taskID: string) => {
-        // setTask1({...tasks1, [todoListID]: tasks1[todoListID].filter(el => el.id !== taskID)})
-
         dispatchTasks(removeTaskAC(todoListID, taskID))
     }
     // pridame tasku
     const addTask = (todoListID: string, title: string) => {
-
-        // let newTask = {
-        //     id: v1(),
-        //     title: title,
-        //     isDone: false
-        // }
-        // let todolistTask = tasks1[todoListID]
-        // tasks1[todoListID] =[newTask,...todolistTask]
-        // setTask1({...tasks1})
-        // setTask1({...tasks1, [todoListID]: [newTask, ...tasks1[todoListID]]})
         dispatchTasks(addTaskAC(todoListID, title))
 
     }
 
     //editace title nazvu jednotlive tasky
     const editTask = (todoListID: string, taskID: string, tasktitle: string) => {
-        // setTask1({
-        //     ...tasks1,
-        //     [todoListID]: tasks1[todoListID].map(el => el.id === taskID ? {...el, title: tasktitle} : el)
-        // })
         dispatchTasks(changeTaskTitleAC(todoListID,taskID,tasktitle))
     }
     //zmena filtru Todolist
     const changeFilter = (todoListID: string, filter: FilterValuetype) => {
-        // setTodoList(todoList.map((e) => e.id === todoListID ? {...e, filter: value} : e))
         dispatchTodoList(changeFilterAC(todoListID,filter))
 
     }
 
     //pridame dalsi TodoList + novou taksku, bez ktere bby neslo Todolist zmapovat
     const addTodoList = (title: string) => {
-        // let newID = v1()
-        // let newTodoList: TodoListType = {
-        //     id: newID,
-        //     title: title,
-        //     filter: 'All'
-        // }
-        // setTodoList([newTodoList, ...todoList])
-        // setTask1({...tasks1, [newID]: []})
         let action = addTodolistAC(title) // generujeme jednu ID pro Todolist a T
         dispatchTodoList(action)
         dispatchTasks(action)
     }
     // remove TodoList
     const removeTodoList = (todoListID:string)=>{
-        // setTodoList(todoList.filter((el)=>el.id !== listID))
         dispatchTodoList(removeTodolistAC(todoListID))
         dispatchTasks(removeTodolistAC(todoListID))
     }
 
     // editace nazvu Todolist
     const editTodoList = (todoListID: string, newTodolistTitle: string) => {
-        // setTodoList(todoList.map(el => el.id === todoListID ? {...el, title: newTitle} : el))
         dispatchTodoList(changeTodolistAC(todoListID,newTodolistTitle))
     }
 

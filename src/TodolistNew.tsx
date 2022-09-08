@@ -1,5 +1,5 @@
 import React from "react";
-import {FilterValuetype} from "./App";
+import {FilterValuetype} from './AppWithRedux'
 import s from "./TodoList.module.css";
 import {CheckBox} from "./components/CheckBox";
 import {AddItemForm} from "./components/AddItemForm";
@@ -23,19 +23,20 @@ export type TasksPropsType = {
     isDone: boolean
 }
 
-export const TodolistNew = ({todolist}: PropsType) => {
+export function TodolistNew ({todolist}: PropsType) {
     const {id,title,filter} = {...todolist}
-    const tasks = useSelector<AppRootStateType, Array<TasksPropsType>>(state => state.tasks[id])
+    let tasks = useSelector<AppRootStateType, Array<TasksPropsType>>(state => state.tasks[id])
     const dispatch = useDispatch()
+
+
     /// filtr
-    const ChangeFilterHandler = (todoListID:string, change:FilterValuetype) => {
-        dispatch(changeFilterAC(todoListID,change))
+    const ChangeFilterHandler = (id:string, filter:FilterValuetype) => {
+        dispatch(changeFilterAC(id,filter))
     }
     ///mapa remove task
     const removeTaskHandler = (todoListID:string, element:string) => {
         dispatch(removeTaskAC(todoListID, element))
     }
-
     // changeBox prepinac
     const checkBoxHandler = (todoListID:string,el:string, eventValue:boolean )=> {
         dispatch(changeTaskStatusAC(todoListID, el, eventValue))
@@ -54,11 +55,17 @@ export const TodolistNew = ({todolist}: PropsType) => {
        dispatch(changeTaskTitleAC(id,taskID,taskTitle))
     }
     //remove Todolist
-    const removeTodoList = (todoListID:string)=>{
+    const removeTodoList = (id:string)=>{
         // props.removeTodoList(todoListID)
-        dispatch(removeTodolistAC(todoListID))
+        dispatch(removeTodolistAC(id))
     }
 
+    if (filter === 'Active') {
+        tasks = tasks.filter(el => !el.isDone)
+    }
+    if (filter === 'Completed') {
+        tasks = tasks.filter(el => el.isDone)
+    }
 
     return (
         <div className="App">
@@ -70,8 +77,9 @@ export const TodolistNew = ({todolist}: PropsType) => {
                 <AddItemForm callBack={addTaskHandler}/>
                 <ul>
                     {tasks.map((el, index) => {
+
                         return (
-                            <li key={el.id} className={el.isDone !== true ? s.isDone: ''}>
+                            <li key={el.id} className={!el.isDone ? s.isDone: ''}>
                                 <CheckBox  checked={el.isDone} callback={(eventValue)=>checkBoxHandler(id, el.id, eventValue)}/>
 
                                 <IconButton aria-label="delete"><Delete
@@ -85,12 +93,12 @@ export const TodolistNew = ({todolist}: PropsType) => {
                     })}
                 </ul>
                 <div>
-                 <Button variant= {filter ==='All' ? "outlined":"contained"} color="secondary" size={'small'}
-                            onClick={()=>ChangeFilterHandler(id,'All')}>All</Button>
                     <Button variant={filter ==='Active' ? "outlined":"contained"} color="success" size={'small'}
                             onClick={()=>ChangeFilterHandler(id,'Active')}>Active</Button>
                     <Button variant={filter ==='Completed' ? "outlined":"contained"} color="error" size={'small'}
                             onClick={()=>ChangeFilterHandler(id,'Completed')}>Completed</Button>
+                    <Button variant= {filter ==='All' ? "outlined":"contained"} color="secondary" size={'small'}
+                            onClick={()=>ChangeFilterHandler(id,'All')}>All</Button>
 
                 </div>
             </div>
