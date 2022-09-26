@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
 import s from "../TodoList.module.css";
 import {Button, TextField} from "@mui/material";
 
@@ -6,7 +6,8 @@ type AddItemFormType ={
     callBack:(title: string)=>void
 }
 
-export const AddItemForm = (props:AddItemFormType) => {
+export const AddItemForm = memo((props:AddItemFormType) => {
+    console.log('item')
     const [newTaskTitle, setNewTaskTitle] = useState('')
     const [error, setError] = useState<string | null>('Title is required')
     const onChangeInputHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,6 +15,7 @@ export const AddItemForm = (props:AddItemFormType) => {
         setError(null)
     }
     const onKeyPressHandler = (event:KeyboardEvent<HTMLInputElement>) => {
+        if(error) setError(null)
         if(event.key === 'Enter'){
             onButtonInputHandler()
         }
@@ -27,7 +29,6 @@ export const AddItemForm = (props:AddItemFormType) => {
             setError('Title is required')
         }
     }
-    console.log()
     return (
         <div>
             <TextField id="outlined-basic"
@@ -45,5 +46,5 @@ export const AddItemForm = (props:AddItemFormType) => {
                     style={{maxWidth: '40px', maxHeight: '40px', minWidth: '40px', minHeight: '40px'}}>+</Button>
         </div>
     );
-};
+});
 

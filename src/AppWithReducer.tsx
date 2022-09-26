@@ -1,4 +1,4 @@
-import React, {useReducer} from 'react';
+import React, {useCallback, useReducer} from 'react';
 import './App.css';
 import {TasksPropsType, Todolist} from "./Todolist";
 import {v1} from "uuid";
@@ -61,10 +61,10 @@ function AppWithReducer() {
         dispatchTasks(removeTaskAC(todoListID, taskID))
     }
     // pridame tasku
-    const addTask = (todoListID: string, title: string) => {
+    const addTask = useCallback((todoListID: string, title: string) => {
         dispatchTasks(addTaskAC(todoListID, title))
 
-    }
+    },[dispatchTasks])
 
     //editace title nazvu jednotlive tasky
     const editTask = (todoListID: string, taskID: string, tasktitle: string) => {

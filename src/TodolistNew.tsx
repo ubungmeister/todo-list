@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo, useCallback} from "react";
 import {FilterValuetype} from './AppWithRedux'
 import s from "./TodoList.module.css";
 import {CheckBox} from "./components/CheckBox";
@@ -23,43 +23,41 @@ export type TasksPropsType = {
     isDone: boolean
 }
 
-export function TodolistNew ({todolist}: PropsType) {
+export const TodolistNew = memo(({todolist}: PropsType)=>{
     const {id,title,filter} = {...todolist}
     let tasks = useSelector<AppRootStateType, Array<TasksPropsType>>(state => state.tasks[id])
     const dispatch = useDispatch()
 
 
     /// filtr
-    const ChangeFilterHandler = (id:string, filter:FilterValuetype) => {
+    const ChangeFilterHandler = useCallback((id:string, filter:FilterValuetype) => {
         dispatch(changeFilterAC(id,filter))
-    }
+    },[dispatch])
     ///mapa remove task
-    const removeTaskHandler = (todoListID:string, element:string) => {
-        dispatch(removeTaskAC(todoListID, element))
-    }
+    const removeTaskHandler = useCallback((todoListID:string, element:string) => {
+        dispatch(removeTaskAC(todoListID, element))}, [dispatch])
     // changeBox prepinac
-    const checkBoxHandler = (todoListID:string,el:string, eventValue:boolean )=> {
+    const checkBoxHandler = useCallback((todoListID:string,el:string, eventValue:boolean )=> {
         dispatch(changeTaskStatusAC(todoListID, el, eventValue))
-    }
+    },[dispatch])
     // pridame novou Tasku
-    const addTaskHandler =(title:string)=>{
+    const addTaskHandler =useCallback((title:string)=>{
         // props.addTask(id, title)
         dispatch(addTaskAC(id, title))
-    }
+    },[dispatch])
     // zmena nazvu Tasky
-    const editTodoListHandler =(newTitle:string)=>{
+    const editTodoListHandler =useCallback((newTitle:string)=>{
         // props.editTodoList(id, newTitle)
         dispatch(changeTodolistAC(id,newTitle))
-    }
-    const editTaskHandler =(taskID:string, taskTitle:string)=>{
+    },[dispatch])
+    const editTaskHandler =useCallback((taskID:string, taskTitle:string)=>{
        dispatch(changeTaskTitleAC(id,taskID,taskTitle))
-    }
+    },[dispatch])
     //remove Todolist
-    const removeTodoList = (id:string)=>{
+    const removeTodoList = useCallback((id:string)=>{
         // props.removeTodoList(todoListID)
         dispatch(removeTodolistAC(id))
-    }
-
+    },[dispatch])
     if (filter === 'Active') {
         tasks = tasks.filter(el => !el.isDone)
     }
@@ -105,4 +103,4 @@ export function TodolistNew ({todolist}: PropsType) {
         </div>
     );
 
-}
+}, )

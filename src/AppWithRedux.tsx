@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TasksPropsType} from "./Todolist";
 import {AddItemForm} from "./components/AddItemForm";
@@ -22,16 +22,16 @@ export type TasksStateType = {
 }
 
 
-function AppWithReducer() {
+function AppWithRedux() {
 
     const todolists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todolists)
     const dispatch = useDispatch()
 
     //pridame dalsi TodoList + novou taksku, bez ktere bby neslo Todolist zmapovat
-    const addTodoList = (title: string) => {
+    const addTodoList = useCallback((title: string) => {
         let action = addTodolistAC(title) // generujeme jednu ID pro Todolist a T
         dispatch(action)
-    }
+    },[dispatch])
 
     return (
         <div className="App">
@@ -54,4 +54,4 @@ function AppWithReducer() {
     );
 }
 
-export default AppWithReducer;
+export default AppWithRedux;
